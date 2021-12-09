@@ -6,26 +6,30 @@
 /*   By: xle-baux <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 10:47:51 by xle-baux          #+#    #+#             */
-/*   Updated: 2021/12/08 19:14:01 by xle-baux         ###   ########.fr       */
+/*   Updated: 2021/12/09 17:16:46 by xle-baux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "get_next_line_utils.c"
+//#include "get_next_line_utils.c"
 
 
-#include <string.h>
-#include <stdio.h>
+//#include <string.h>
+//#include <stdio.h>
 
 char	*get_line(char *stock)
 {
 	int	i;
 	char	*line;
 
+	if (!stock)
+		return (NULL);
 	i = 0;
 	while (stock[i] && stock[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * (i + 2));
+	line = ft_calloc(sizeof(char), (i + 2));
+	if (!line)
+		return (NULL);
 	i = 0;
 	while (stock[i] && stock[i] != '\n')
 	{
@@ -50,7 +54,9 @@ char	*stocking(char *stock)
 	i_stock = 0;
 	while (stock[i_stock] && stock[i_stock] != '\n')
 		i_stock++;
-	str = malloc(sizeof(char) * (ft_strlen(stock) - i_stock + 1));
+	if (!stock[i_stock])
+		return (free(stock), NULL);
+	str = ft_calloc(sizeof(char), (ft_strlen(stock) - i_stock + 1));
 	if (!str)
 		return (NULL);
 	i_str = 0;
@@ -68,7 +74,10 @@ char	*get_next_line(int fd)
 	static char	*stock;
 	int		len;
 
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = "";
+	buffer = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 
@@ -78,120 +87,37 @@ char	*get_next_line(int fd)
 	{
 	
 		len = read(fd, buffer, BUFFER_SIZE);
+		if (len == -1)
+		{
+			free (buffer);
+			return (NULL);
+		}
 		buffer[len] = '\0';
 		stock = ft_strjoin(stock, buffer);
 	}
 	line = get_line(stock);
+	if (!(stock = stocking(stock)))
+		return (NULL);
 	free(buffer);
-	stock = stocking(stock);
 	return (line);
 }
 
 /*
-char	*ft_get_line(char *save)
-{
-	int	i;
-	char	*s;
-
-	i = 0;
-	if (!save[i])
-		return (NULL);
-	while (save[i] && save[i] != '\n')
-		i++;
-	s = (char *)malloc(sizeof(char) * (i + 2));
-	if (!s)
-		return (NULL);
-	i = 0;
-	while (save[i] && save[i] != '\n')
-	{
-		s[i] = save[i];
-		i++;
-	}
-	if (save[i] == '\n')
-	{
-		s[i] = save[i];
-		i++;
-	}
-	s[i] = '\0';
-	return (s);
-}
-
-char	*ft_save(char *save)
-{
-	int	i;
-	int	c;
-	char	*s;
-
-	i = 0;
-	while (save[i] && save[i] != '\n')
-		i++;
-	if (!save[i])
-	{
-		free(save);
-		return (NULL);
-	}
-	s = (char *)malloc(sizeof(char) * (ft_strlen(save) - i + 1));
-	if (!s)
-		return (NULL);
-	i++;
-	c = 0;
-	while (save[i])
-		s[c++] = save[i++];
-	s[c] = '\0';
-	free(save);
-	return (s);
-}
-
-char	*ft_read_and_save(int fd, char *save)
-{
-	char	*buff;
-	int	read_bytes;
-
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
-		return (NULL);
-	read_bytes = 1;
-	while (!strchr(save, '\n') && read_bytes != 0)
-	{
-		read_bytes = read(fd, buff, BUFFER_SIZE);
-		if (read_bytes == -1)
-		{
-			free(buff);
-			return (NULL);
-		}
-		buff[read_bytes] = '\0';
-		save = ft_strjoin(save, buff);
-	}
-	free(buff);
-	return (save);
-}
-
-char	*get_next_line(int fd)
-{
-	char		*line;
-	static char	*save;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	save = "";
-	save = ft_read_and_save(fd, save);
-	if (!save)
-		return (NULL);
-	line = ft_get_line(save);
-	save = ft_save(save);
-	return (line);
-}
-*/
 #include <fcntl.h>
 
-int	main()
+int    main(void)
 {
-	int	fd;
-	char	*buff;
+    char    *str;
+    int    fd;
 
-	fd = open("Lorem.txt", O_RDONLY);
-	buff = get_next_line(fd);
-	printf("%s", buff);
-	buff = get_next_line(fd);
-	printf("%s", buff);
-}
+    fd = open("Lorem.txt", O_RDONLY);
+    if (!fd)
+        return (1);
+    str = "";
+    while ((str = get_next_line(fd)))
+    {
+        printf("%s", str);
+        free(str);
+    }
+    return (0);
+}*/

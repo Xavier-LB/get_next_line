@@ -6,11 +6,35 @@
 /*   By: xle-baux <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 11:38:44 by xle-baux          #+#    #+#             */
-/*   Updated: 2021/12/08 12:56:56 by xle-baux         ###   ########.fr       */
+/*   Updated: 2021/12/09 17:15:12 by xle-baux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*str;
+
+	str = s;
+	while (n > 0)
+	{
+		*str = '\0';
+		n--;
+		str++;
+	}
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*p;
+
+	p = malloc(nmemb * size);
+	if (p == NULL)
+		return (NULL);
+	ft_bzero(p, (nmemb * size));
+	return (p);
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -29,6 +53,8 @@ char	*ft_strchr(char *str, int c)
 	unsigned int	i;
 
 	i = 0;
+	if (!str || !c)
+		return (NULL);
 	while (str[i] != (unsigned char)c && str[i] != '\0')
 		i++;
 	if (str[i] == (unsigned char)c)
