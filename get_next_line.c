@@ -22,12 +22,12 @@ char	*get_line(char *stock)
 	int	i;
 	char	*line;
 
-	if (!stock)
+	if (!stock[0])
 		return (NULL);
 	i = 0;
 	while (stock[i] && stock[i] != '\n')
 		i++;
-	line = ft_calloc(sizeof(char), (i + 2));
+	line = (char *)malloc(sizeof(char) * (i + 2));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -56,7 +56,7 @@ char	*stocking(char *stock)
 		i_stock++;
 	if (!stock[i_stock])
 		return (free(stock), NULL);
-	str = ft_calloc(sizeof(char), (ft_strlen(stock) - i_stock + 1));
+	str = malloc(sizeof(char) * (ft_strlen(stock) - i_stock + 1));
 	if (!str)
 		return (NULL);
 	i_str = 0;
@@ -75,30 +75,22 @@ char	*get_next_line(int fd)
 	int		len;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = "";
-	buffer = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
+		return (0);
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-
 	len = 1;
-
-	while (len != 0 && !(ft_strchr(buffer, '\n')))
+	while (len != 0 && !ft_strchr(stock, '\n'))
 	{
-	
 		len = read(fd, buffer, BUFFER_SIZE);
 		if (len == -1)
-		{
-			free (buffer);
-			return (NULL);
-		}
+			return (free(buffer), NULL);
 		buffer[len] = '\0';
 		stock = ft_strjoin(stock, buffer);
 	}
-	line = get_line(stock);
-	if (!(stock = stocking(stock)))
-		return (NULL);
 	free(buffer);
+	line = get_line(stock);
+	stock = stocking(stock);
 	return (line);
 }
 
