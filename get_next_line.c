@@ -12,14 +12,12 @@
 
 #include "get_next_line.h"
 //#include "get_next_line_utils.c"
-
-
 //#include <string.h>
 //#include <stdio.h>
 
 char	*get_line(char *stock)
 {
-	int	i;
+	int		i;
 	char	*line;
 
 	if (!stock[0])
@@ -48,8 +46,8 @@ char	*get_line(char *stock)
 char	*stocking(char *stock)
 {
 	char	*str;
-	int	i_str;
-	int	i_stock;
+	int		i_str;
+	int		i_stock;
 
 	i_stock = 0;
 	while (stock[i_stock] && stock[i_stock] != '\n')
@@ -72,7 +70,7 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	char		*line;
 	static char	*stock;
-	int		len;
+	int			len;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
