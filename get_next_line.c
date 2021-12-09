@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-//#include "get_next_line_utils.c"
-//#include <string.h>
-//#include <stdio.h>
 
 char	*get_line(char *stock)
 {
@@ -91,23 +88,3 @@ char	*get_next_line(int fd)
 	stock = stocking(stock);
 	return (line);
 }
-
-/*
-#include <fcntl.h>
-
-int    main(void)
-{
-    char    *str;
-    int    fd;
-
-    fd = open("Lorem.txt", O_RDONLY);
-    if (!fd)
-        return (1);
-    str = "";
-    while ((str = get_next_line(fd)))
-    {
-        printf("%s", str);
-        free(str);
-    }
-    return (0);
-}*/
