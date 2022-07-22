@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xle-baux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: xle-baux <xle-baux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 10:47:51 by xle-baux          #+#    #+#             */
-/*   Updated: 2021/12/09 17:16:46 by xle-baux         ###   ########.fr       */
+/*   Updated: 2022/07/22 10:48:34 by xle-baux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-//#include "get_next_line_utils.c"
-//#include <string.h>
-//#include <stdio.h>
 
 char	*get_line(char *stock)
 {
